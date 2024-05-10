@@ -1,12 +1,14 @@
-function longestPalindromeSubseq(s) {
-  const n = s.length;
-  const dp = Array.from(Array(n), () => Array(n).fill(0));
-  for (let i = n - 1; i >= 0; i--) {
-    dp[i][i] = 1;
-    for (let j = i + 1; j < n; j++) {
-      if (s[i] === s[j]) dp[i][j] = dp[i + 1][j - 1] + 2;
-      else dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
-    }
+const insertionSortRecursive = (arr, n = arr.length) => {
+  if (n <= 1) {
+    return arr;
   }
-  return dp[0][n - 1];
-}
+  insertionSortRecursive(arr, n - 1);
+  const last = arr[n - 1];
+  let j = n - 2;
+  while (j >= 0 && arr[j] > last) {
+    arr[j + 1] = arr[j];
+    j--;
+  }
+  arr[j + 1] = last;
+  return arr;
+};
