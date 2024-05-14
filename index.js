@@ -1,15 +1,28 @@
-function longestValidParentheses(s) {
-  if (s.length === 0) return 0;
-  let max = 0;
-  const dp = new Array(s.length).fill(0);
-  for (let i = 1; i < s.length; i++) {
-    if (s[i] === ")") {
-      if (s[i - 1] === "(") dp[i] = (i >= 2 ? dp[i - 2] : 0) + 2;
-      else if (i - dp[i - 1] > 0 && s[i - dp[i - 1] - 1] === "(")
-        dp[i] =
-          dp[i - 1] + (i - dp[i - 1] >= 2 ? dp[i - dp[i - 1] - 2] : 0) + 2;
-      max = Math.max(max, dp[i]);
+const pancakeSort = (arr) => {
+  const flip = (arr, k) => {
+    let i = 0;
+    while (i < k / 2) {
+      [arr[i], arr[k - i]] = [arr[k - i], arr[i]];
+      i++;
     }
+  };
+  const findMaxIndex = (arr, n) => {
+    let maxIndex = 0;
+    for (let i = 0; i < n; i++) {
+      if (arr[i] > arr[maxIndex]) {
+        maxIndex = i;
+      }
+    }
+    return maxIndex;
+  };
+  let currentSize = arr.length;
+  while (currentSize > 1) {
+    const maxIndex = findMaxIndex(arr, currentSize);
+    if (maxIndex !== currentSize - 1) {
+      flip(arr, maxIndex);
+      flip(arr, currentSize - 1);
+    }
+    currentSize--;
   }
-  return max;
-}
+  return arr;
+};
